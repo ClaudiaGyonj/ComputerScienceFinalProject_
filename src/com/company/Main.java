@@ -25,9 +25,30 @@ public class Main {
         itemFeature = new int[numFeatures][numItems];
         userFeature = new int[numUsers][numFeatures];
 
-        System.out.println(Arrays.deepToString(userItem));
-        System.out.println(Arrays.deepToString(itemFeature));
-        System.out.println(Arrays.deepToString(userFeature));
+        // printing out arrays with proper formatting
+        System.out.println("Here's your User-Item array:");
+        for (int i = 0; i < numUsers-1; i++) {
+            for (int j = 0; j < numItems-1; j++) {
+                System.out.print(userItem[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("Here's your Item-Feature array:");
+        for (int i = 0; i < numFeatures-1; i++) {
+            for (int j = 0; j < numItems-1; j++) {
+                System.out.print(itemFeature[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("Here's your User-Feature array:");
+        for (int i = 0; i < numUsers-1; i++) {
+            for (int j = 0; j < numFeatures-1; j++) {
+                System.out.print(userFeature[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
     public static int getNumItems(Scanner keyboard){
         System.out.println("How many items are there?");
