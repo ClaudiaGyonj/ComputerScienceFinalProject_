@@ -94,7 +94,7 @@ public class Main {
 
 
 
-        System.out.println("Here's your user-feature array:");
+        System.out.println("Here's your user-feature matrix:");
         for (int i = 0; i < numUsers-1; i++) {
             for (int j = 0; j < numFeatures-1; j++) {
                 System.out.print(userFeature[i][j] + " ");
