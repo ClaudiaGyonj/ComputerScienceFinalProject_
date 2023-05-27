@@ -24,15 +24,16 @@ public class Main {
         int[][] userItem = getUserItemMatrix(keyboard, userFeature, itemFeature);
 
         // printing out final matrix with proper formatting
-        System.out.println("Here's your final user-item matrix:");
-        for (int i = 0; i < numUsers-1; i++) {
-            for (int j = 0; j < numItems-1; j++) {
-                System.out.print(userItem[i][j] + " ");
+        for (int i = 0; i < numFeatures; i++) {
+            for (int j = 0; j < numItems; j++) {
+                System.out.print(itemFeature[i][j] + " ");
             }
             System.out.println();
         }
 
     }
+
+    // asking how many items/users/features
     public static int getNumItems(Scanner keyboard){
         System.out.println("How many items are there?");
         int numItems = keyboard.nextInt();
@@ -49,19 +50,34 @@ public class Main {
         return numFeatures;
     }
 
+    // creating the item-feature matrix from numItems and numFeatures
     public static int[][] getItemFeatureMatrix(Scanner keyboard){
         int featureIndex = 1;
         boolean errorOccurred = false;
         int[][] itemFeature = new int[numFeatures][numItems];
+
         System.out.println("Let's start with the item-feature matrix.");
+
+        // ask user to input features by row (for the number of users (rows) they specified originally)
         do{
-            System.out.println("Enter" + numItems + "values for feature" + featureIndex + "separated by spaces.");
+            System.out.println("Enter " + numItems + " values for feature " + featureIndex + " separated by spaces.");
             String input = keyboard.nextLine();
 
-            //more code
+            // PARSE THROUGH input AND PUT EACH INT VALUE INTO ROW featureIndex, INTO THE CORRESPONDING COLUMN #
 
+            // I LOOKED ONLINE AND FOUND THIS, IT KIND OF WORKS TO PARSE AND PRINT EACH VALUE AS A STRING
+            // BUT NOT AS AN INTEGER... AND DOES NOT PUT IN AN ARRAY
 
+            // Declaring an empty string array
+            String[] arr = null;
+            // Converting using String.split() method with whitespace as a delimiter
+            arr = input.split(" ");
+            // Printing the converted string array
+            for (int i = 0; i < arr.length; i++) {
+                System.out.println(arr[i]);
+            }
 
+            featureIndex++;
         } while(featureIndex < numFeatures + 2 || errorOccurred);
 
         System.out.println("Here's your item-feature matrix:");
