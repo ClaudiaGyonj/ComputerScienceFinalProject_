@@ -156,9 +156,13 @@ public class Main {
     public static int[][] getUserItemMatrix(Scanner keyboard, int[][] userFeature, int[][] itemFeature){
         int[][] userItem = new int[numUsers][numItems];
 
-        //math
-
-
+        for (int i = 0; i < userItem.length; i++) {
+            for (int j = 0; j < userItem[i].length; j++) {
+                for (int k = 0; k < userFeature[i].length; k++) {
+                    userItem[i][j] += userFeature[i][k] * itemFeature[k][j];
+                }
+            }
+        }
 
         return userItem;
     }
