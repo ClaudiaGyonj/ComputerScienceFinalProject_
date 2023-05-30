@@ -48,6 +48,7 @@ public class Main {
         System.out.println("How many features are there?");
         int numFeatures = keyboard.nextInt();
         return numFeatures;
+        //returns feature number
     }
 
     // creating the item-feature matrix from numItems and numFeatures
