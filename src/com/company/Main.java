@@ -18,15 +18,36 @@ public class Main {
         numUsers = getNumUsers(keyboard);
         numFeatures = getNumFeatures(keyboard);
 
-        // creating 2D arrays with the number of items/users/features requested
+        // creating item feature matrix (Brinda)
         int[][] itemFeature = getItemFeatureMatrix(keyboard);
-        int[][] userFeature = getUserFeatureMatrix(keyboard);
-        int[][] userItem = getUserItemMatrix(keyboard, userFeature, itemFeature);
-
-        // printing out final matrix with proper formatting
+        System.out.println("Here's your item-feature matrix:");
         for (int i = 0; i < numFeatures; i++) {
             for (int j = 0; j < numItems; j++) {
                 System.out.print(itemFeature[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        //creating user feature matrix (Claudia)
+        int userIndex = 1;
+        int[][] uf = new int[numUsers][numFeatures];
+        System.out.println("Next let's make the user-feature matrix.");
+        Scanner keyboard2 = new Scanner(System.in);
+        int[][] userFeature = getUserFeatureMatrix(keyboard2, userIndex, uf);
+        System.out.println("Here's your user-feature matrix:");
+        for (int i = 0; i < numUsers; i++) {
+            for (int j = 0; j < numFeatures; j++) {
+                System.out.print(userFeature[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        // printing out final matrix with proper formatting
+        int[][] userItem = getUserItemMatrix(keyboard, userFeature, itemFeature);
+        System.out.println("Here's the final user-item matrix:");
+        for (int i = 0; i < numUsers; i++) {
+            for (int j = 0; j < numItems; j++) {
+                System.out.print(userItem[i][j] + " ");
             }
             System.out.println();
         }
@@ -48,7 +69,6 @@ public class Main {
         System.out.println("How many features are there?");
         int numFeatures = keyboard.nextInt();
         return numFeatures;
-        //returns feature number
     }
 
     // creating the item-feature matrix from numItems and numFeatures
@@ -61,7 +81,7 @@ public class Main {
 
         // ask user to input features by row (for the number of users (rows) they specified originally)
         do{
-            System.out.println("Enter " + numItems + " values for feature " + featureIndex + " separated by spaces.");
+            System.out.println("Enter " + numItems + " item values for feature " + featureIndex + " separated by spaces (no spaces at the end).");
             String input = keyboard.nextLine();
 
             // PARSE THROUGH input AND PUT EACH INT VALUE INTO ROW featureIndex, INTO THE CORRESPONDING COLUMN #
@@ -79,47 +99,48 @@ public class Main {
             }
 
             featureIndex++;
-        } while(featureIndex < numFeatures + 2 || errorOccurred);
-
-        System.out.println("Here's your item-feature matrix:");
-        for (int i = 0; i < numFeatures-1; i++) {
-            for (int j = 0; j < numItems-1; j++) {
-                System.out.print(itemFeature[i][j] + " ");
-            }
-            System.out.println();
-        }
+        } while(featureIndex < numFeatures + 1 || errorOccurred);
 
         return itemFeature;
     }
 
-    public static int[][] getUserFeatureMatrix(Scanner keyboard){
-        int userIndex = 1;
-        boolean errorOccurred = false;
-        int[][] userFeature = new int[numUsers][numFeatures];
-        System.out.println("Next let's make the user-feature matrix.");
-        do{
-            System.out.println("Enter" + numFeatures + "values for user" + userIndex + "separated by spaces.");
-            String input = keyboard.nextLine();
+    public static int[][] getUserFeatureMatrix(Scanner keyboard, int userIndex, int[][] userFeature){
 
-            //more code
-
-
-
-        } while(userIndex < numUsers + 2 || errorOccurred);
-
-
-
-
-
-        System.out.println("Here's your user-feature matrix:");
-        for (int i = 0; i < numUsers-1; i++) {
-            for (int j = 0; j < numFeatures-1; j++) {
-                System.out.print(userFeature[i][j] + " ");
-            }
-            System.out.println();
+        if(userIndex == numUsers + 1){
+            return userFeature;
         }
 
-        return userFeature;
+        System.out.println("Enter " + numFeatures + " feature values for user" + userIndex + " separated by spaces (no spaces at the end).");
+        String input = keyboard.nextLine();
+
+        if(input.length() != numFeatures + (numFeatures - 1)){
+            System.out.println("The input is the wrong length.");
+            return getUserFeatureMatrix(keyboard, userIndex, userFeature);
+        } else{
+            boolean errorOccurred = false;
+            for(int i = 0; i < input.length(); i++){
+                char ch =  input.charAt(i);
+                String str = Character.toString(ch);
+                if(!Character.isDigit(ch) && !(str.equals(" "))){
+                    errorOccurred = true;
+                }
+            }
+            if(errorOccurred){
+                System.out.println("Please enter digits separated by spaces only.");
+                return getUserFeatureMatrix(keyboard, userIndex, userFeature);
+            } else{
+                int featureIndex = 0;
+                for(int i = 0; i < input.length(); i++){
+                    char ch = input.charAt(i);
+                    if(!String.valueOf(ch).equals(" ")){
+                        int featureValue = Character.getNumericValue(ch);
+                        userFeature[userIndex - 1][featureIndex] = featureValue;
+                        featureIndex++;
+                    }
+                }
+                return getUserFeatureMatrix(keyboard, userIndex + 1, userFeature);
+            }
+        }
     }
 
     public static int[][] getUserItemMatrix(Scanner keyboard, int[][] userFeature, int[][] itemFeature){
