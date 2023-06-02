@@ -61,7 +61,7 @@ public class Main {
         int[][] userItem = getUserItemMatrix(keyboard, userFeature, itemFeature);
         System.out.println("Here's the final user-item matrix:");
         StringBuilder toAddToArrayList = new StringBuilder();
-        toAddToArrayList.append("ArrayList #").append(counter).append(":\n");
+        toAddToArrayList.append("Matrix #").append(counter).append(":\n");
         for (int i = 0; i < numUsers; i++) {
             for (int j = 0; j < numItems; j++) {
                 System.out.print(userItem[i][j] + " ");
