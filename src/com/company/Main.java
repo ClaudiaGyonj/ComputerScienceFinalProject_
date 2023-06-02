@@ -1,5 +1,7 @@
 package com.company;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Scanner.*;
 
@@ -9,8 +11,17 @@ public class Main {
     public static int numUsers;
     public static int numFeatures;
 
+    public static int counter = 0;
+
 
     public static void main(String[] args) {
+        // making ArrayList to hold all previous matrices
+        ArrayList<String> arrayList = new ArrayList<>();
+        main2(arrayList);
+    }
+
+    public static void main2(ArrayList<String> arrayList) {
+        counter++;
         Scanner keyboard = new Scanner(System.in);
 
         // asking user how many items/users/features they want
@@ -49,13 +60,45 @@ public class Main {
         // printing out final matrix with proper formatting
         int[][] userItem = getUserItemMatrix(keyboard, userFeature, itemFeature);
         System.out.println("Here's the final user-item matrix:");
+        StringBuilder toAddToArrayList = new StringBuilder();
+        toAddToArrayList.append("ArrayList #").append(counter).append(":\n");
         for (int i = 0; i < numUsers; i++) {
             for (int j = 0; j < numItems; j++) {
                 System.out.print(userItem[i][j] + " ");
+                toAddToArrayList.append(userItem[i][j]).append(" ");
             }
             System.out.println();
+            toAddToArrayList.append("\n");
         }
+        arrayList.add(toAddToArrayList.toString());
+        toContinue(arrayList);
+    }
 
+    // ask user if they want to continue
+    public static void toContinue (ArrayList<String> arrayList) {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Type 'a' if you want to view your old matrices");
+        String viewOldMatrices = keyboard.nextLine();
+        if (viewOldMatrices.toLowerCase(Locale.ROOT).equals("a")
+                || viewOldMatrices.toLowerCase(Locale.ROOT).equals("y")
+                || viewOldMatrices.toLowerCase(Locale.ROOT).equals("yes")) {
+            System.out.println("Here they are! \n");
+            for (int i = 0; i < counter; i++) {
+                System.out.println(arrayList.get(i));
+            }
+//            System.out.println(arrayList);
+        }
+        System.out.println("Do you want to make another matrix? Type 'y' or 'n'");
+        String answer = keyboard.nextLine();
+        if (answer.toLowerCase(Locale.ROOT).equals("y") || answer.toLowerCase(Locale.ROOT).equals("yes")){
+            System.out.println("Okay, cool!");
+            main2(arrayList);
+        } else if (answer.toLowerCase(Locale.ROOT).equals("n") || answer.toLowerCase(Locale.ROOT).equals("no")) {
+            System.out.println("Okay, thanks for using this application!");
+        } else {
+            System.out.println("I didn't quite understand...");
+            toContinue(arrayList);
+        }
     }
 
     // asking how many items/users/features
